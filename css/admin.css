@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+    background-color: rgb(225,225,225);
+}
+
+#display {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(225,225,225);
+}
+
+#sidebar {
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    background-color: rgb(0,198,255);
+}
+
+#content {
+    position: absolute;
+    width: 80%;
+    left: 20%;
+    height: 100%;
+}
+
+#logo {
+    position: relative;
+    width: 80%;
+    height: auto;
+    left: 50%;
+    top: 15px;
+    transform: translateX(-50%);
+}
+
+.buttons {
+    position: relative;
+    width: 100%;
+    height: 75px;
+    top: 15px;
+    background-color: rgb(0,166,212);
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+
+    transition: .1s;
+    outline: none;
+}
+.buttons:hover {
+    background-color: rgb(0,136,173);
+}
+
+.views {
+    position: absolute;
+    width: 97.5%;
+    height: 97.5%;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#regNewClientView, #removeClientView {
+    display: none;
+}
+
+#goalsHeader, #registerHeader, #removeHeader, #regNewFname, #regNewLname, #regNewEmail, #regNewPassword, #regNewButton {
+    position: relative;
+    display: block;
+    text-align: center;
+    top: 5%;
+    margin-top: 20px;
+}
+
+#regNewFname, #regNewLname, #regNewEmail, #regNewPassword, .clientDiv {
+    width: 80%;
+    height: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.inputs {
+    color: black;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    border-bottom: 2px solid white;
+
+    outline: none;
+}
+.inputs:focus {
+    box-shadow: 0 15px 25px -14px rgb(0,198,255);
+    border-bottom: 2px solid rgb(0,198,255);
+}
+
+#regNewButton {
+    width: 30%;
+    height: 50px;
+    left: 60%;
+    color: black;
+    background-color: rgba(0,0,0,0);
+    border: 2px solid rgb(0,198,255);
+    border-radius: 15px;
+
+    transition: .1s;
+    outline: none;
+    cursor: pointer;
+}
+#regNewButton:hover {
+    background-color: rgb(0,198,255);
+}
+
+.clientDiv {
+    position: relative;
+    width: 80%;
+    height: 100px;
+    background-color: grey;
+    top: 5%;
+    margin-top: 20px;
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    
+}
+
+.swal2-modal {
+    border: .25vw solid whitesmoke;
+    box-shadow: 0 0 20vw black;
+}

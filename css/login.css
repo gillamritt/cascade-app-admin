@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+}
+
+#display {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0,198,255);
+}
+
+#loginContainer, #registerContainer {
+    position: absolute;
+    background-color: rgb(225,225,225);
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    border-radius: 20px;
+    transition: .25s;
+    max-width: 99%;
+    max-height: 99%;
+}
+
+#loginContainer {
+    height: 350px;
+}
+
+#registerContainer {
+    display: none;
+    height: 510px;
+}
+
+#loginHeader, #loginEmail, #loginPassword, #loginSubmit, #switch2reg, #registerHeader,
+#registerFname, #registerLname, #registerEmail, #registerPassword, #registerSubmit, #switch2log {
+    position: relative;
+    display: block;
+    text-align: center;
+    top: 5%;
+    margin-top: 20px;
+}
+
+.inputs {
+    color: black;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    border-bottom: 2px solid white;
+
+    outline: none;
+}
+.inputs:focus {
+    box-shadow: 0 15px 25px -14px rgb(0,198,255);
+    border-bottom: 2px solid rgb(0,198,255);
+}
+
+#loginEmail, #loginPassword, #registerFname, #registerLname, #registerEmail, #registerPassword {
+    width: 80%;
+    height: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#switch2reg, #switch2log {
+    width: 250px;
+    text-align: left;
+    left: 10%;
+    cursor: pointer;
+}
+#switch2reg:hover, #switch2log:hover {
+    color: blue;
+    text-decoration: underline;
+    text-underline-position: below;
+}
+
+.buttons {
+    width: 30%;
+    height: 50px;
+    left: 60%;
+    color: black;
+    background-color: rgba(0,0,0,0);
+    border: 2px solid rgb(0,198,255);
+    border-radius: 15px;
+
+    transition: .1s;
+    outline: none;
+    cursor: pointer;
+}
+.buttons:hover {
+    background-color: rgb(0,198,255);
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    #loginContainer, #registerContainer {
+        width: 300px;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    #loginContainer, #registerContainer {
+        width: 450px;
+    }
+    /* #loginEmail, #loginPassword {
+        width: 80%;
+    } */
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    #loginContainer, #registerContainer {
+        width: 550px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #loginContainer, #registerContainer {
+        width: 650px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    #loginContainer, #registerContainer {
+        width: 750px;
+    }
+}
+
+.swal2-modal {
+    border: .25vw solid whitesmoke;
+    box-shadow: 0 0 20vw black;
+}

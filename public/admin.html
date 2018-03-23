@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Follow-Thru Admin</title>
+        <link rel="stylesheet"  type="text/css" href="/styles/admin.css"/>
+    </head>
+
+    <body>
+        <div id="display">
+            <div id="sidebar">
+                <img id="logo" src="/images/Logo2.png"/>
+                <button id="manageGoalsButton" class="buttons">Manage goals</button>
+                <button id="regNewClientButton" class="buttons">Register new client</button>
+                <button id="removeClientButton" class="buttons">Remove client</button>
+            </div>
+
+            <div id="content">
+                <div id="manageGoalsView" class="views">
+                    <div id="goalsHeader">Manage goals</div>
+                </div>
+                <div id="regNewClientView" class="views">
+                    <div id="registerHeader">Register New Client</div>
+                    <input id="regNewFname" class="inputs" type="text" placeholder="Type first name"/>
+                    <input id="regNewLname" class="inputs" type="text" placeholder="Type last name"/>
+                    <input id="regNewEmail" class="inputs" type="text" placeholder="Type e-mail"/>
+                    <input id="regNewPassword" class="inputs" type="password" placeholder="Type password"/>
+                    <button id="regNewButton">Create</button>
+                </div>
+                <div id="removeClientView" class="views">
+                    <div id="removeHeader">Remove client</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/scripts/adminbundle.js"></script>
+    </body>
+</html>
