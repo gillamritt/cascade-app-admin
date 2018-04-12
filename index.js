@@ -15,7 +15,8 @@ var io = require("socket.io")(server);
 var pF = path.resolve(__dirname, "public");
 var sF = path.resolve(__dirname, "js");
 
-var dbURL = process.env.DATABASE_URL || 'postgres://cascadeapp:teamcascade@cascade-db.cxnma2xuxlgy.us-west-2.rds.amazonaws.com:5432/cascadeapp'
+// var dbURL = process.env.DATABASE_URL || 'postgres://cascadeapp:teamcascade@cascade-db.cxnma2xuxlgy.us-west-2.rds.amazonaws.com:5432/cascadeapp';
+var dbURL = process.env.DATABASE_URL || 'postgres://followthru:cascadeapp@follow-thru-db.czto5vbsmdqt.us-west-2.rds.amazonaws.com:5432/followthru';
 
 const client = new pg.Client(dbURL);
 client.connect();
@@ -44,11 +45,16 @@ function checkLogin(req) {
 app.use("/scripts", express.static("build"));
 app.use("/styles", express.static("css"));
 app.use("/images", express.static("media"));
+app.use("/bower", express.static("bower_components"));
 
 // get pages
 app.get("/", function (req, resp) {
     resp.sendFile(pF+"/login.html");
 });
+
+app.get("/register", function (req, resp) {
+    resp.sendFile(pF+"/register.html");
+})
 
 app.get("/admin", function (req, resp) {
     if(checkLogin(req)) {
@@ -126,6 +132,10 @@ app.post("/login", function(req, resp) {
                 resp.send({
                     status: "success"
                 });
+            } else {
+                resp.send({
+                    status: "fail"
+                });
             }
         } else {
             // req.session.destroy();
@@ -155,46 +165,6 @@ app.post("/showClients", function(req, resp) {
             resp.send({
                 status: "null"
             });
-        }
-    });
-});
-
-// add a goal for a specific client
-app.post("/addGoal", function(req, resp) {
-    client.query("INSERT INTO goals (title, assigned_to, assigned_by, description, start_date, due_date) values ($1, $2, $3, $4, $5, $6)",
-    [req.body.goalTitle, req.body.clientIndex, req.session.user.user_id, req.body.goalDescription, "2018-03-17 20:00:00+00", "2018-03-29 23:00:00+00"], function(err, result) {
-        if(err) {
-            console.log(err);
-            resp.send({
-                status: "fail"
-            });
-        } else {
-            resp.send({
-                status: "success"
-            });
-        }
-    });
-});
-
-// get a specific client's goals
-app.post("/getGoals", function(req, resp) {
-    client.query("SELECT * FROM goals WHERE assigned_to = $1;", [req.body.clientIndex], function(err, result) {
-        if(err) {
-            console.log(err);
-            resp.send({
-                status: "fail"
-            });
-        } else {
-            if(result.rows.length > 0) {
-                resp.send({
-                    status: "success",
-                    goals: result.rows
-                });
-            } else {
-                resp.send({
-                    status: "null"
-                });
-            }
         }
     });
 });
@@ -231,6 +201,110 @@ app.post("/registerClient", function(req, resp) {
                     status: "duplicate"
                 });
             }
+        }
+    });
+});
+
+// delete client from admin
+app.post("/deleteClient", function(req, resp) {
+    client.query("DELETE FROM goals WHERE assigned_to = $1;", [req.body.clientIndex], function(err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            });
+        } else {
+            client.query("DELETE FROM users WHERE user_id = $1;", [req.body.clientIndex], function(err2, result2) {
+                if(err2) {
+                    console.log(err2);
+                    resp.send({
+                        status: "fail"
+                    });
+                } else {
+                    resp.send({
+                        status: "success"
+                    });
+                }
+            });
+        }
+    });
+});
+
+// logout function for admin
+app.post("/logout", function (req, resp) {
+    req.session.destroy();
+    resp.send({status: "success"});
+});
+
+// add a goal for a specific client
+app.post("/addGoal", function(req, resp) {
+    client.query("INSERT INTO goals (title, assigned_to, assigned_by, description, due_date) values ($1, $2, $3, $4, $5)",
+    [req.body.goalTitle, req.body.clientIndex, req.session.user.user_id,
+    req.body.goalDescription, req.body.goalDueDate], function(err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            });
+        } else {
+            resp.send({
+                status: "success"
+            });
+        }
+    });
+});
+
+// get a specific client's goals
+app.post("/getGoals", function(req, resp) {
+    client.query("SELECT * FROM goals WHERE assigned_to = $1 order by finished_date;", [req.body.clientIndex], function(err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            });
+        } else {
+            if(result.rows.length > 0) {
+                resp.send({
+                    status: "success",
+                    goals: result.rows
+                });
+            } else {
+                resp.send({
+                    status: "null"
+                });
+            }
+        }
+    });
+});
+
+// delete a specific unfinished goal for a client
+app.post("/deleteGoal", function(req, resp) {
+    client.query("DELETE FROM goals WHERE goal_id = $1;", [req.body.goalIndex], function(err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            });
+        } else {
+            resp.send({
+                status: "success"
+            });
+        }
+    });
+});
+
+// clear a specific finished or missed goal for a client
+app.post("/clearGoal", function(req, resp) {
+    client.query("UPDATE goals SET show = false WHERE goal_id = $1;", [req.body.clearIndex], function(err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            });
+        } else {
+            resp.send({
+                status: "success"
+            });
         }
     });
 });

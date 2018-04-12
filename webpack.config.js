@@ -8,7 +8,8 @@ var config = {
     entry: {
         "login": jF + "/login.js",
         "admin": jF + "/admin.js",
-        "client": jF + "/client.js"
+        "client": jF + "/client.js",
+        "register": jF + "/register.js"
     },
     output: {
         filename: "[name]bundle.js",
