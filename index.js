@@ -146,6 +146,57 @@ app.post("/login", function(req, resp) {
     });
 });
 
+// change password
+app.post("/changePassword", function(req, resp) {
+    client.query("SELECT password FROM users WHERE user_id = $1;",
+    [req.session.user.user_id], function(err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            });
+        }
+        
+        if(result.rows.length == 1 && result.rows[0].is_admin == true) {
+            var isMatch = bcrypt.compareSync(req.body.loginPassword, result.rows[0].password);
+            if(isMatch) {
+                req.session.user = result.rows[0];
+                resp.send({
+                    status: "success"
+                });
+            } else {
+                resp.send({
+                    status: "fail"
+                });
+            }
+        } else {
+            // req.session.destroy();
+            resp.send({
+                status: "fail"
+            });
+        }
+    });
+    bcrypt.hash(req.body.new_password, 5, function(err, bpass) {
+        //console.log(req.body.password)
+		client.query(
+			"UPDATE users SET password = $1 WHERE user_id = $2;",
+			[bpass, req.session.user.user_id], function (err, result){
+                //console.log(bpass)
+				if (err) {
+					console.log(err);
+					resp.send({ 
+                        status: "fail"
+                    });
+				} else {
+					resp.send({ 
+                        status: "success" 
+                    });
+                }
+			}
+		);
+	})
+});
+
 // show clients
 app.post("/showClients", function(req, resp) {
     client.query("SELECT * FROM users WHERE client_of = $1;", [req.session.user.user_id], function(err, result) {
