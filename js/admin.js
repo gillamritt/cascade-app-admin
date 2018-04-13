@@ -24,6 +24,7 @@ $(document).ready(function() {
         newPass = document.getElementById("newPass"),
         newPassConfirm = document.getElementById("newPassConfirm")
         confirmPassButton = document.getElementById("confirmPassButton");
+        regexPassword = /^[a-zA-Z0-9]{4,23}$/;
 
     manageGoalsButton.style.background = "linear-gradient(rgb(60,60,60), rgb(85,85,85))";
 
@@ -87,21 +88,56 @@ $(document).ready(function() {
     });
 
     confirmPassButton.addEventListener("click", function() {
-        //console.log(newPass.value);
-        $.ajax({
-            url: "/changePassword",
-            type: "post",
-            data: {
-                old_password: oldPass.value,
-                new_password: newPass.value,
-                confirm_password: newPassConfirm.value,
-            },
-            success: function(resp) {
-                if(resp.status == "success") {
-                    console.log("success");
+        var oldPassword = "";
+        var newPassword = "";
+        var confirmPassword = "";
+        if(regexPassword.test(oldPass.value)){
+            var oldPassword = oldPass.value;
+        }
+
+        if(regexPassword.test(newPass.value)){
+            var newPassword = newPass.value;
+        }
+
+        if(regexPassword.test(newPassConfirm.value)){
+            var confirmPassword = newPassConfirm.value;
+        }
+
+        //check if all regex for the inputs pass
+        if(regexPassword.test(oldPass.value) && 
+        regexPassword.test(newPass.value) && 
+        regexPassword.test(newPassConfirm.value) &&
+        newPassword == confirmPassword){
+            $.ajax({
+                url: "/changePassword",
+                type: "post",
+                data: {
+                    old_password: oldPassword,
+                    new_password: newPassword
+                },
+                success: function(resp) {
+                    if(resp.status == "success") {
+                        swal({
+                            type: 'success',
+                            title: '<span style="color:white;font-family:sans-serif">Password changed.</span>',
+                            background: 'rgb(75,75,75)'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            swal({
+                type: 'error',
+                title: '<span style="color:white;font-family:sans-serif">Invalid inputs.</span><br><span style="color:rgb(175,175,175);font-size:15px;font-family:sans-serif">Please make sure all inputs are valid.</span>',
+                background: 'rgb(75,75,75)'
+            }).then(() => {
+                oldPass.value = "";
+                newPass.value = "";
+                newPassConfirm.value = "";
+            });
+        }
     });
 
     $.ajax({
