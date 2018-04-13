@@ -1,7 +1,5 @@
 const swal = require('sweetalert2');
 
-// var clientname;
-
 $(document).ready(function() {
     var manageGoalsButton = document.getElementById("manageGoalsButton"),
         regNewClientButton = document.getElementById("regNewClientButton"),
@@ -23,7 +21,7 @@ $(document).ready(function() {
         oldPass = document.getElementById("oldPass"),
         newPass = document.getElementById("newPass"),
         newPassConfirm = document.getElementById("newPassConfirm")
-        confirmPassButton = document.getElementById("confirmPassButton");
+        confirmPassButton = document.getElementById("confirmPassButton"),
         regexPassword = /^[a-zA-Z0-9]{4,23}$/;
 
     manageGoalsButton.style.background = "linear-gradient(rgb(60,60,60), rgb(85,85,85))";
@@ -119,10 +117,20 @@ $(document).ready(function() {
                     if(resp.status == "success") {
                         swal({
                             type: 'success',
-                            title: '<span style="color:white;font-family:sans-serif">Password changed.</span>',
+                            title: '<span style="color:white;font-family:sans-serif">Password changed</span>',
                             background: 'rgb(75,75,75)'
                         }).then(() => {
                             location.reload();
+                        });
+                    } else {
+                        swal({
+                            type: 'error',
+                            title: '<span style="color:white;font-family:sans-serif">Old password is incorrect</span>',
+                            background: 'rgb(75,75,75)'
+                        }).then(() => {
+                            oldPass.value = "";
+                            newPass.value = "";
+                            newPassConfirm.value = "";
                         });
                     }
                 }
@@ -130,7 +138,7 @@ $(document).ready(function() {
         } else {
             swal({
                 type: 'error',
-                title: '<span style="color:white;font-family:sans-serif">Invalid inputs.</span><br><span style="color:rgb(175,175,175);font-size:15px;font-family:sans-serif">Please make sure all inputs are valid.</span>',
+                title: '<span style="color:white;font-family:sans-serif">Invalid inputs</span><br><span style="color:rgb(175,175,175);font-size:15px;font-family:sans-serif">Please make sure all inputs are valid</span>',
                 background: 'rgb(75,75,75)'
             }).then(() => {
                 oldPass.value = "";

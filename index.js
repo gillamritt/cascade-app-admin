@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const port = process.env.PORT || 10000;
@@ -15,8 +16,7 @@ var io = require("socket.io")(server);
 var pF = path.resolve(__dirname, "public");
 var sF = path.resolve(__dirname, "js");
 
-// var dbURL = process.env.DATABASE_URL || 'postgres://cascadeapp:teamcascade@cascade-db.cxnma2xuxlgy.us-west-2.rds.amazonaws.com:5432/cascadeapp';
-var dbURL = process.env.DATABASE_URL || 'postgres://followthru:cascadeapp@follow-thru-db.czto5vbsmdqt.us-west-2.rds.amazonaws.com:5432/followthru';
+var dbURL = process.env.DATABASE_URL;
 
 const client = new pg.Client(dbURL);
 client.connect();

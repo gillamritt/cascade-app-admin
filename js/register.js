@@ -4,7 +4,13 @@ var registerFname = document.getElementById("registerFname"),
     registerLname = document.getElementById("registerLname"),
     registerEmail = document.getElementById("registerEmail"),
     registerPassword = document.getElementById("registerPassword"),
-    registerSubmit = document.getElementById("registerSubmit");
+    registerSubmit = document.getElementById("registerSubmit")
+    
+    loginButton = document.getElementById("loginButton");
+
+loginButton.addEventListener("click", function() {
+    location.href = "/";
+});
 
 $(document).ready(function() {
 
