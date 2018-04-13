@@ -3,6 +3,14 @@ body {
     background-color: rgb(100,100,100);
 }
 
+p, button, input, div {
+    font-family: 'Montserrat', sans-serif;
+}
+
+button {
+    font-weight: 700
+}
+
 #navbar {
     position: fixed;
     top: 0;
@@ -33,8 +41,8 @@ body {
     position: absolute;
     left: 5%;
     top: 50%;
+    font-weight: 700;
     transform: translateY(-50%);
-    font-family: sans-serif;
     font-size: 20px;
     color: white;
 }
@@ -92,7 +100,7 @@ body {
 #setGoalsTitle, #monitorGoalsTitle {
     position: relative;
     text-align: center;
-    font-family: sans-serif;
+    font-weight: 700;
     font-size: 20px;
     color: white;
 }
@@ -149,7 +157,8 @@ body {
     width: 50%;
     left: 50%;
     top: 75px;
-
+    
+    font-family: 'Montserrat', sans-serif;
     display: none;
 }
 
@@ -164,7 +173,6 @@ body {
 
 .responseGoalTitle, .responseGoalDescription, .responseGoalDueDate, .responseGoalStatusText {
     position: relative;
-    font-family: sans-serif;
     font-size: 15px;
     color: rgb(200,200,200);
 }
@@ -176,7 +184,6 @@ body {
 
 .responseGoalStatus {
     position: relative;
-    font-family: sans-serif;
     font-size: 15px;
 }
 
