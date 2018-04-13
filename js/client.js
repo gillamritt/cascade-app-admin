@@ -95,7 +95,34 @@ $(document).ready(function() {
         },
         success: function(resp) {
             if(resp.status == "success") {
+
+                var currentDate = new Date();
+                var currentDateString = currentDate.toISOString();
+
+                var parsedDate = Date.parse(currentDateString);
+
+
                 for(var i = 0; i < resp.goals.length; i++) {
+                    console.log(Date.parse(resp.goals[i].due_date));
+                    console.log(parsedDate);
+                    console.log(i + ': ' + Date.parse(resp.goals[i].due_date) < parsedDate);
+                    if(Date.parse(resp.goals[i].due_date) < parsedDate && resp.goals[i].finished_date == null && resp.goals[i].missed == false) {
+                        $.ajax({
+                            url: "/taskMissed",
+                            type: "post",
+                            data: {
+                                goalId: resp.goals[i].goal_id
+                            },
+                            success: function(resp) {
+                                if(resp.status == "success") {
+                                    console.log("working");
+                                } else {
+                                    console.log("not working");
+                                }
+                            }
+                        });
+                    }
+
                     if(resp.goals[i].missed == false && resp.goals[i].finished_date != null) {
                         goalsCompleted += 1;
                     } else if(resp.goals[i].missed == true) {
@@ -137,13 +164,13 @@ $(document).ready(function() {
                         responseGoalStatus.className = "responseGoalStatus";
                         if(resp.goals[i].missed == true) {
                             responseGoalStatus.innerHTML = "Missed";
-                            responseGoalStatus.style.color = "red";
+                            responseGoalStatus.style.color = "#ef5350";
                         } else if(resp.goals[i].missed == false && resp.goals[i].finished_date == null) {
                             responseGoalStatus.innerHTML = "In progress";
-                            responseGoalStatus.style.color = "orange";
+                            responseGoalStatus.style.color = "rgb(0,198,255)";
                         } else {
                             responseGoalStatus.innerHTML = "Completed";
-                            responseGoalStatus.style.color = "rgb(0,198,255)";
+                            responseGoalStatus.style.color = "#00e676";
                         }
                         responseGoalStatus.style.display = "inline"; //TEMPORARY *****************************************************
                         responseGoalDiv.appendChild(responseGoalStatus);
@@ -238,7 +265,7 @@ $(document).ready(function() {
                     data: {
                         datasets: [{
                             data: [goalsCompleted, goalsMissed, goalsInProgress],
-                            backgroundColor: ['rgb(0,198,255)', 'red', 'orange']
+                            backgroundColor: ['#00e676', '#ef5350', 'rgb(0,198,255)']
                         }],
                         
                         // These labels appear in the legend and in the tooltips when hovering different arcs

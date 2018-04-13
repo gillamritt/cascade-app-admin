@@ -138,7 +138,7 @@ app.post("/login", function(req, resp) {
                 });
             }
         } else {
-            // req.session.destroy();
+            req.session.destroy();
             resp.send({
                 status: "fail"
             });
@@ -234,6 +234,22 @@ app.post("/deleteClient", function(req, resp) {
 app.post("/logout", function (req, resp) {
     req.session.destroy();
     resp.send({status: "success"});
+});
+
+// add a goal for a specific client
+app.post("/taskMissed", function(req, resp) {
+    client.query("UPDATE goals SET missed = true WHERE goal_id = $1", [req.body.goalId], function(err, result) {
+        if(err) {
+            console.log(err);
+            resp.send({
+                status: "fail"
+            });
+        } else {
+            resp.send({
+                status: "success"
+            });
+        }
+    });
 });
 
 // add a goal for a specific client
