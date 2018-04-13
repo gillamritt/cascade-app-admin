@@ -6,21 +6,28 @@ $(document).ready(function() {
     var manageGoalsButton = document.getElementById("manageGoalsButton"),
         regNewClientButton = document.getElementById("regNewClientButton"),
         removeClientButton = document.getElementById("removeClientButton"),
+        changePassButton = document.getElementById("changePassButton"),
         logoutButton = document.getElementById("logoutButton"),
 
         manageGoalsView = document.getElementById("manageGoalsView"),
         regNewClientView = document.getElementById("regNewClientView"),
         removeClientView = document.getElementById("removeClientView"),
+        changePassView = document.getElementById("changePassView"),
         
         regNewFname = document.getElementById("regNewFname"),
         regNewLname = document.getElementById("regNewLname"),
         regNewEmail = document.getElementById("regNewEmail"),
         regNewPassword = document.getElementById("regNewPassword"),
-        regNewButton = document.getElementById("regNewButton");
+        regNewButton = document.getElementById("regNewButton"),
+
+        oldPass = document.getElementById("oldPass"),
+        newPass = document.getElementById("newPass"),
+        newPassConfirm = document.getElementById("newPassConfirm")
+        confirmPassButton = document.getElementById("confirmPassButton");
 
     manageGoalsButton.style.background = "linear-gradient(rgb(60,60,60), rgb(85,85,85))";
 
-    var buttons = [manageGoalsButton, regNewClientButton, removeClientButton];
+    var buttons = [manageGoalsButton, regNewClientButton, removeClientButton, changePassButton];
     //This Function makes the selected menu "glow/highlighted" when it's clicked
     var active;
     function glow(active) {
@@ -38,6 +45,7 @@ $(document).ready(function() {
         manageGoalsView.style.display = "inline";
         regNewClientView.style.display = "none";
         removeClientView.style.display = "none";
+        changePassView.style.display = "none";
     });
 
     regNewClientButton.addEventListener("click", function() {
@@ -45,6 +53,7 @@ $(document).ready(function() {
         manageGoalsView.style.display = "none";
         regNewClientView.style.display = "inline";
         removeClientView.style.display = "none";
+        changePassView.style.display = "none";
     });
 
     removeClientButton.addEventListener("click", function() {
@@ -52,6 +61,15 @@ $(document).ready(function() {
         manageGoalsView.style.display = "none";
         regNewClientView.style.display = "none";
         removeClientView.style.display = "inline";
+        changePassView.style.display = "none";
+    });
+
+    changePassButton.addEventListener("click", function() {
+        glow(changePassButton);
+        manageGoalsView.style.display = "none";
+        regNewClientView.style.display = "none";
+        removeClientView.style.display = "none";
+        changePassView.style.display = "inline";
     });
 
     logoutButton.addEventListener("click", function() {
@@ -63,6 +81,24 @@ $(document).ready(function() {
                     var url = window.location.href;
                     window.history.go(-window.history.length);
                     window.location.href = url;
+                }
+            }
+        });
+    });
+
+    confirmPassButton.addEventListener("click", function() {
+        //console.log(newPass.value);
+        $.ajax({
+            url: "/changePassword",
+            type: "post",
+            data: {
+                old_password: oldPass.value,
+                new_password: newPass.value,
+                confirm_password: newPassConfirm.value,
+            },
+            success: function(resp) {
+                if(resp.status == "success") {
+                    console.log("success");
                 }
             }
         });
