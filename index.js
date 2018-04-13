@@ -148,53 +148,54 @@ app.post("/login", function(req, resp) {
 
 // change password
 app.post("/changePassword", function(req, resp) {
-    client.query("SELECT password FROM users WHERE user_id = $1;",
-    [req.session.user.user_id], function(err, result) {
-        if(err) {
-            console.log(err);
-            resp.send({
-                status: "fail"
-            });
-        }
-        
-        if(result.rows.length == 1 && result.rows[0].is_admin == true) {
-            var isMatch = bcrypt.compareSync(req.body.loginPassword, result.rows[0].password);
-            if(isMatch) {
-                req.session.user = result.rows[0];
-                resp.send({
-                    status: "success"
-                });
-            } else {
+        //query to get the original password of the user
+        client.query("SELECT password FROM users WHERE user_id = $1;",
+        [req.session.user.user_id], function(err, result) {
+            if(err) {
+                console.log(err);
                 resp.send({
                     status: "fail"
                 });
             }
-        } else {
-            // req.session.destroy();
-            resp.send({
-                status: "fail"
-            });
-        }
-    });
-    bcrypt.hash(req.body.new_password, 5, function(err, bpass) {
-        //console.log(req.body.password)
-		client.query(
-			"UPDATE users SET password = $1 WHERE user_id = $2;",
-			[bpass, req.session.user.user_id], function (err, result){
-                //console.log(bpass)
-				if (err) {
-					console.log(err);
-					resp.send({ 
+            
+            if(result.rows.length == 1) {
+                //hash and compare the old password from the input with the original hashed password
+                var isMatch = bcrypt.compareSync(req.body.old_password, result.rows[0].password);
+
+                /*if the passwords match, hash the new password &
+                query to update the password with the new one*/
+                if(isMatch) {
+                    bcrypt.hash(req.body.new_password, 5, function(err, bpass) {
+                        
+                        client.query(
+                            "UPDATE users SET password = $1 WHERE user_id = $2;",
+                            [bpass, req.session.user.user_id], function (err, result){
+                                
+                                if (err) {
+                                    console.log(err);
+                                    resp.send({ 
+                                        status: "fail"
+                                    });
+                                } else {
+                                    resp.send({ 
+                                        status: "success" 
+                                    });
+                                }
+                            }
+                        );
+                    })
+                } else {
+                    resp.send({
                         status: "fail"
                     });
-				} else {
-					resp.send({ 
-                        status: "success" 
-                    });
                 }
-			}
-		);
-	})
+            } else {
+                // req.session.destroy();
+                resp.send({
+                    status: "fail"
+                });
+            }
+        });
 });
 
 // show clients
