@@ -2,6 +2,13 @@ body {
     margin: 0;
     background-color: rgb(100,100,100);
 }
+p, button, input, div {
+    font-family: 'Montserrat', sans-serif;
+}
+
+button {
+    font-weight: 700
+}
 
 #navbar {
     position: absolute;
@@ -15,11 +22,11 @@ body {
 #logo {
     display: inline;
     position: absolute;
-    width: 60px;
+    width: 175px;
     height: auto;
     left: 50%;
     top: 50%;
-    transform: translateX(-750%) translateY(-50%);
+    transform: translateX(-240%) translateY(-50%);
 }
 
 #followthru {
@@ -37,7 +44,7 @@ body {
     display: inline;
     position: absolute;
     color: white;
-    font-family: sans-serif;
+    font-weight: 700;
     font-size: 20px;
     left: 50%;
     top: 50%;
