@@ -97,16 +97,20 @@ $(document).ready(function() {
             if(resp.status == "success") {
 
                 var currentDate = new Date();
-                var currentDateString = currentDate.toISOString();
-
-                var parsedDate = Date.parse(currentDateString);
-
+                //var currentDateString = currentDate.toISOString();
 
                 for(var i = 0; i < resp.goals.length; i++) {
-                    console.log(Date.parse(resp.goals[i].due_date));
-                    console.log(parsedDate);
-                    console.log(i + ': ' + Date.parse(resp.goals[i].due_date) < parsedDate);
-                    if(Date.parse(resp.goals[i].due_date) < parsedDate && resp.goals[i].finished_date == null && resp.goals[i].missed == false) {
+
+                    var due_date = new Date(resp.goals[i].due_date);
+                    //set the due date hour
+                    due_date.setHours(due_date.getHours()+7);
+                    
+                    console.log(currentDate + '- current');
+                    console.log(due_date + '- due date');
+                    console.log(due_date < currentDate);
+                    
+
+                    if(due_date < currentDate && resp.goals[i].finished_date == null && resp.goals[i].missed == false) {
                         $.ajax({
                             url: "/taskMissed",
                             type: "post",
