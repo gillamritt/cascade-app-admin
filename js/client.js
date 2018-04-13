@@ -24,7 +24,10 @@ $(document).ready(function() {
         goalDueDate = document.getElementById("goalDueDate"),
         addGoalButton = document.getElementById("addGoalButton"),
 
-        ctx = document.getElementById("myChart").getContext("2d");
+        ctx = document.getElementById("myChart").getContext("2d"),
+        
+        regexTitle = /^[a-zA-Z0-9\!\ \.\,\?\&\+]{2,40}$/;
+        regexDesc = /^[a-zA-Z0-9\!\ \.\,\?\&\+]{2,400}$/;
 
     clientNameText.innerHTML = clientName;
 
@@ -49,28 +52,36 @@ $(document).ready(function() {
 
         if(goalTitle.value !== "" && goalDescription.value !== "" && goalDueDate.value !== "") {
             if(Date.parse(goalStartDate) < Date.parse(goalDueDate.value)) {
-                $.ajax({
-                    url: "/addGoal",
-                    type: "post",
-                    data: {
-                        goalTitle: goalTitle.value,
-                        goalDescription: goalDescription.value,
-                        goalDueDate: goalDueDate.value,
-                        clientIndex: clientIndex
-                    },
-                    success: function(resp) {
-                        if(resp.status == "success") {
-                            swal({
-                                type: 'success',
-                                title: '<span style="color:white;font-family:sans-serif">Goal added!</span>',
-                                background: 'rgb(75,75,75)'
-                            })
-                            .then(() => {
-                                location.reload();
-                            });
+                if(regexTitle.test(goalTitle.value) && regexDesc.test(goalDescription.value) == true) {
+                    $.ajax({
+                        url: "/addGoal",
+                        type: "post",
+                        data: {
+                            goalTitle: goalTitle.value,
+                            goalDescription: goalDescription.value,
+                            goalDueDate: goalDueDate.value,
+                            clientIndex: clientIndex
+                        },
+                        success: function(resp) {
+                            if(resp.status == "success") {
+                                swal({
+                                    type: 'success',
+                                    title: '<span style="color:white;font-family:sans-serif">Goal added!</span>',
+                                    background: 'rgb(75,75,75)'
+                                })
+                                .then(() => {
+                                    location.reload();
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    swal({
+                        type: 'error',
+                        title: '<span style="color:white;font-family:sans-serif">Invalid input/characters/length</span>',
+                        background: 'rgb(75,75,75)'
+                    });
+                }
             } else {
                 swal({
                     type: 'error',
@@ -138,7 +149,7 @@ $(document).ready(function() {
                     if(resp.goals[i].show == true) {
                         var responseGoalDiv = document.createElement("div");
                         responseGoalDiv.className = "responseGoalDiv";
-                        responseGoalDiv.style.marginBottom = "10px"; //TEMPORARY *****************************************************
+                        responseGoalDiv.style.marginBottom = "10px";
                         monitorGoalsDiv.appendChild(responseGoalDiv);
 
                         var responseGoalTitle = document.createElement("div");
@@ -161,7 +172,7 @@ $(document).ready(function() {
                         var responseGoalStatusText = document.createElement("div");
                         responseGoalStatusText.className = "responseGoalStatusText";
                         responseGoalStatusText.innerHTML = "Status: ";
-                        responseGoalStatusText.style.display = "inline"; //TEMPORARY *****************************************************
+                        responseGoalStatusText.style.display = "inline";
                         responseGoalDiv.appendChild(responseGoalStatusText);
                         
                         var responseGoalStatus = document.createElement("div");
@@ -176,7 +187,7 @@ $(document).ready(function() {
                             responseGoalStatus.innerHTML = "Completed";
                             responseGoalStatus.style.color = "#00e676";
                         }
-                        responseGoalStatus.style.display = "inline"; //TEMPORARY *****************************************************
+                        responseGoalStatus.style.display = "inline";
                         responseGoalDiv.appendChild(responseGoalStatus);
 
                         var deleteGoalButton = document.createElement("button");

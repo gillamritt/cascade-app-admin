@@ -20,9 +20,11 @@ $(document).ready(function() {
 
         oldPass = document.getElementById("oldPass"),
         newPass = document.getElementById("newPass"),
-        newPassConfirm = document.getElementById("newPassConfirm")
+        newPassConfirm = document.getElementById("newPassConfirm"),
         confirmPassButton = document.getElementById("confirmPassButton"),
-        regexPassword = /^[a-zA-Z0-9]{4,23}$/;
+        regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        regexPassword = /^[a-zA-Z0-9]{4,23}$/,
+        regexName = /^[a-zA-Z]{2,23}$/;
 
     manageGoalsButton.style.background = "linear-gradient(rgb(60,60,60), rgb(85,85,85))";
 
@@ -198,33 +200,41 @@ $(document).ready(function() {
 
     regNewButton.addEventListener("click", function() {
         if(regNewFname.value !== "" && regNewLname.value !== "" && regNewEmail.value !== "" && regNewPassword.value !== "") {
-            $.ajax({
-                url: "/registerClient",
-                data: {
-                    regNewFname: regNewFname.value,
-                    regNewLname: regNewLname.value,
-                    regNewEmail: regNewEmail.value,
-                    regNewPassword: regNewPassword.value,
-                },
-                type: "post",
-                success: function(resp) {
-                    if(resp.status == "success") {
-                        swal({
-                            type: 'success',
-                            title: '<span style="color:white;font-family:sans-serif">Account registered</span><br><span style="color:rgb(175,175,175);font-size:15px;font-family:sans-serif">'+resp.fname+' '+resp.lname+' has been added!</span>',
-                            background: 'rgb(75,75,75)'
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else if(resp.status == "duplicate") {
-                        swal({
-                            type: 'error',
-                            title: '<span style="color:white;font-family:sans-serif">Registration failed</span><br><span style="color:rgb(175,175,175);font-size:15px;font-family:sans-serif">E-mail already exists</span>',
-                            background: 'rgb(75,75,75)'
-                        });
+            if(regexName.test(regNewFname.value) && regexName.test(regNewLname.value) && regexEmail.test(regNewEmail.value) && regexPassword.test(regNewPassword.value) == true) {
+                $.ajax({
+                    url: "/registerClient",
+                    data: {
+                        regNewFname: regNewFname.value,
+                        regNewLname: regNewLname.value,
+                        regNewEmail: regNewEmail.value,
+                        regNewPassword: regNewPassword.value,
+                    },
+                    type: "post",
+                    success: function(resp) {
+                        if(resp.status == "success") {
+                            swal({
+                                type: 'success',
+                                title: '<span style="color:white;font-family:sans-serif">Account registered</span><br><span style="color:rgb(175,175,175);font-size:15px;font-family:sans-serif">'+resp.fname+' '+resp.lname+' has been added!</span>',
+                                background: 'rgb(75,75,75)'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else if(resp.status == "duplicate") {
+                            swal({
+                                type: 'error',
+                                title: '<span style="color:white;font-family:sans-serif">Registration failed</span><br><span style="color:rgb(175,175,175);font-size:15px;font-family:sans-serif">E-mail already exists</span>',
+                                background: 'rgb(75,75,75)'
+                            });
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                swal({
+                    type: 'error',
+                    title: '<span style="color:white;font-family:sans-serif">Invalid inputs</span>',
+                    background: 'rgb(75,75,75)'
+                });
+            }
         } else {
             swal({
                 type: 'error',
