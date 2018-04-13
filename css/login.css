@@ -3,6 +3,10 @@ body {
     background-color: rgb(100,100,100);
 }
 
+p, button, input, div {
+    font-family: 'Montserrat', sans-serif;
+}
+
 #navbar {
     position: absolute;
     top: 0;
@@ -15,18 +19,18 @@ body {
 #logo {
     display: inline;
     position: absolute;
-    width: 60px;
+    width: 175px;
     height: auto;
     left: 50%;
     top: 50%;
-    transform: translateX(-750%) translateY(-50%);
+    transform: translateX(-240%) translateY(-50%);
 }
 
 #followthru {
     display: inline;
     position: absolute;
     color: white;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     left: 50%;
     top: 50%;
@@ -37,7 +41,8 @@ body {
     display: inline;
     position: absolute;
     color: white;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
     font-size: 20px;
     left: 50%;
     top: 50%;
@@ -56,6 +61,8 @@ body {
     background-color: rgba(0,0,0,0);
     border: 2px solid rgb(0,198,255);
     border-radius: 35px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
 
     transition: .1s;
     outline: none;
@@ -85,6 +92,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .buttons {
@@ -99,6 +107,8 @@ body {
     transition: .1s;
     outline: none;
     cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
 }
 .buttons:hover {
     color: white;
@@ -113,6 +123,7 @@ body {
     background-color: rgba(0,0,0,0);
     border: none;
     border-bottom: 2px solid white;
+    font-family: 'Montserrat', sans-serif;
 
     outline: none;
 }
