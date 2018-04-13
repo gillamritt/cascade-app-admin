@@ -323,7 +323,7 @@ app.post("/addGoal", function(req, resp) {
 
 // get a specific client's goals
 app.post("/getGoals", function(req, resp) {
-    client.query("SELECT * FROM goals WHERE assigned_to = $1 order by finished_date;", [req.body.clientIndex], function(err, result) {
+    client.query("SELECT * FROM goals WHERE assigned_to = $1 order by finished_date asc, missed desc;", [req.body.clientIndex], function(err, result) {
         if(err) {
             console.log(err);
             resp.send({

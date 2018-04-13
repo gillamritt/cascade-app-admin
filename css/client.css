@@ -109,7 +109,7 @@ body {
 .inputs {
     width: 450px;
     height: 50px;
-    color: black;
+    color: white;
     background-color: rgba(0,0,0,0);
     border: none;
     border-bottom: 2px solid white;
@@ -121,20 +121,27 @@ body {
     border-bottom: 2px solid rgb(0,198,255);
 }
 
+#goalDueDate {
+    height: 27px;
+    color: white;
+    background-color: rgb(125,125,125);
+    border: 2px solid rgb(0,198,255);
+}
+
 #addGoalButton {
-    width: 150px;
+    width: 125px;
     height: 50px;
     color: black;
-    background-color: rgba(0,0,0,0);
-    border: 2px solid rgb(0,198,255);
-    border-radius: 15px;
-
+    background-color: rgb(0,198,255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     transition: .1s;
     outline: none;
-    cursor: pointer;
 }
 #addGoalButton:hover {
-    background-color: rgb(0,198,255);
+    color: white;
+    background-color: rgb(0,135,185);
 }
 
 #monitorGoalsDiv {
@@ -151,7 +158,51 @@ body {
     width: 500px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgb(125,125,125);
+    margin-top: 30px;
+    border-top: 3px solid rgb(200,200,200);
+}
+
+.responseGoalTitle, .responseGoalDescription, .responseGoalDueDate, .responseGoalStatusText {
+    position: relative;
+    font-family: sans-serif;
+    font-size: 15px;
+    color: rgb(200,200,200);
+}
+
+.responseGoalTitle {
+    font-size: 17px;
+    color: white;
+}
+
+.responseGoalStatus {
+    position: relative;
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+.deleteGoalButton, .clearGoalButton {
+    position: relative;
+    width: 75px;
+    height: 35px;
+    color: black;
+    background-color: rgb(0,198,255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .1s;
+    outline: none;
+}
+.clearGoalButton:hover {
+    color: white;
+    background-color: rgb(0,135,185);
+}
+
+.deleteGoalButton {
+    color: white;
+    background-color: #ef5350;
+}
+.deleteGoalButton:hover {
+    background-color: #ac3533;
 }
 
 .swal2-modal {
